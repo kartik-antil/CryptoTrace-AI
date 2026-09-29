@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>CryptoTrace AI — Blockchain Fraud Intelligence</title>
+<style>
+:root{--bg:#070b14;--panel:#0d1422;--panel2:#111b2d;--line:#20304a;--text:#eef5ff;--muted:#8fa2bd;--cyan:#25d8ff;--purple:#8b5cf6;--green:#36e0a1;--red:#ff5577;--amber:#ffbd4a}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0%,#14264a 0,#070b14 40%);color:var(--text);font:14px Inter,system-ui,Segoe UI,sans-serif}
+.nav{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 5%;backdrop-filter:blur(12px);position:sticky;top:0;background:#070b14dd;z-index:5}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:19px}.logo{width:35px;height:35px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--purple));display:grid;place-items:center;box-shadow:0 0 28px #25d8ff44}
+.badge{border:1px solid #25d8ff55;color:var(--cyan);padding:7px 11px;border-radius:999px;font-size:11px;font-weight:700}
+.wrap{max-width:1240px;margin:auto;padding:45px 5% 70px}.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:center;padding:30px 0 45px}
+.eyebrow{color:var(--cyan);font-weight:800;letter-spacing:2px;font-size:12px}.hero h1{font-size:48px;line-height:1.04;margin:12px 0}.hero h1 span{background:linear-gradient(90deg,var(--cyan),#b98cff);-webkit-background-clip:text;color:transparent}.hero p{color:var(--muted);font-size:16px;line-height:1.7;max-width:680px}
+.hero-card,.card{background:linear-gradient(180deg,#101a2b,#0b121f);border:1px solid var(--line);border-radius:20px;box-shadow:0 20px 70px #0005}.hero-card{padding:25px}.metric{display:flex;justify-content:space-between;padding:15px 0;border-bottom:1px solid var(--line)}.metric:last-child{border:0}.metric b{font-size:18px}.green{color:var(--green)}.cyan{color:var(--cyan)}
+.section-title{display:flex;justify-content:space-between;align-items:end;margin:20px 0 15px}.section-title h2{margin:0;font-size:24px}.muted{color:var(--muted)}
+.input-row{display:flex;gap:10px}.input{flex:1;background:#080e19;border:1px solid var(--line);color:white;padding:15px 16px;border-radius:12px;outline:none}.input:focus{border-color:var(--cyan)}button{border:0;border-radius:12px;padding:0 22px;background:linear-gradient(135deg,var(--cyan),#6d7cff);color:#04101a;font-weight:900;cursor:pointer;min-height:48px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{border:1px solid var(--line);background:#0b1320;color:var(--muted);padding:7px 10px;border-radius:999px;cursor:pointer;font-size:12px}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;margin-top:18px}.card{padding:20px}.card h3{margin:0 0 15px}.score{display:flex;align-items:center;gap:20px}.ring{width:115px;height:115px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--red) 0 82%,#182338 82%);position:relative}.ring:after{content:"";position:absolute;inset:9px;background:#0b121f;border-radius:50%}.ring span{position:relative;z-index:1;font-size:28px;font-weight:900}.risktext b{color:var(--red);font-size:19px}.bar{height:8px;background:#182338;border-radius:99px;overflow:hidden;margin:8px 0 15px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--amber),var(--red));border-radius:99px}
+.table{width:100%;border-collapse:collapse}.table th,.table td{text-align:left;padding:12px 9px;border-bottom:1px solid var(--line);font-size:12px}.table th{color:var(--muted)}.tag{padding:5px 8px;border-radius:7px;background:#ff55771a;color:#ff7792}.tag.ok{background:#36e0a11a;color:var(--green)}
+.graph{height:285px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 50%,#172844,#0a111e 65%);border-radius:14px;border:1px solid #1b2a41}.node{position:absolute;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:800;border:2px solid}.node.main{left:43%;top:40%;width:72px;height:72px;border-color:var(--cyan);background:#0b2632;box-shadow:0 0 30px #25d8ff55}.node.a{left:12%;top:18%;border-color:var(--purple);background:#19142c}.node.b{right:13%;top:17%;border-color:var(--amber);background:#2a2110}.node.c{left:17%;bottom:13%;border-color:var(--green);background:#102a22}.node.d{right:16%;bottom:12%;border-color:var(--red);background:#2b111a}.edge{position:absolute;height:2px;background:linear-gradient(90deg,#56698c,#25d8ff);transform-origin:left center;opacity:.65}.e1{width:260px;left:25%;top:35%;transform:rotate(12deg)}.e2{width:245px;left:50%;top:41%;transform:rotate(-28deg)}.e3{width:250px;left:25%;top:55%;transform:rotate(-14deg)}.e4{width:250px;left:52%;top:58%;transform:rotate(25deg)}
+.alert{margin-top:16px;border-left:3px solid var(--red);background:#ff55770d;padding:14px;border-radius:9px;color:#c7d3e5;line-height:1.5}.footer{margin-top:40px;color:#6f829f;text-align:center;font-size:12px}
+.loading{opacity:.6;pointer-events:none}
+@media(max-width:850px){.hero,.grid{grid-template-columns:1fr}.hero h1{font-size:38px}.input-row{flex-direction:column}button{padding:13px}.nav{padding:0 4%}}
+</style>
+</head>
+<body>
+<header class="nav"><div class="brand"><div class="logo">₿</div> CryptoTrace <span style="color:#25d8ff">AI</span></div><div class="badge">SIH 26183 • DEMO</div></header>
+<main class="wrap">
+<section class="hero">
+<div><div class="eyebrow">REAL-TIME BLOCKCHAIN INTELLIGENCE</div><h1>Trace the money.<br><span>Expose the risk.</span></h1><p>CryptoTrace AI is a defensive blockchain analytics platform that turns a suspect wallet into an explainable transaction trail, risk assessment and potential exchange destination report.</p></div>
+<div class="hero-card"><div class="metric"><span>Detection Engine</span><b class="green">ONLINE</b></div><div class="metric"><span>Graph Nodes Analyzed</span><b>12,481</b></div><div class="metric"><span>Pattern Rules</span><b>38</b></div><div class="metric"><span>Response Latency</span><b class="cyan">1.8s</b></div></div>
+</section>
+
+<div class="section-title"><div><h2>Wallet Investigation</h2><div class="muted">Enter a wallet address for a simulated investigator workflow.</div></div></div>
+<div class="card"><div class="input-row"><input id="wallet" class="input" placeholder="e.g. 0x7A2...F91" value="0x7A2C91D4E8F1B6A2C4F9D0E7F1A3B8C9D2E6F91"/><button onclick="trace()">TRACE WALLET →</button></div><div class="quick"><span class="muted">Demo wallets:</span><span class="chip" onclick="setWallet('0x7A2C91D4E8F1B6A2C4F9D0E7F1A3B8C9D2E6F91')">High-risk flow</span><span class="chip" onclick="setWallet('0x41B8E2D0C9A173F5A8E0D21C7B6F9A44')">Normal flow</span></div></div>
+
+<section id="results">
+<div class="grid">
+<div class="card"><h3>Transaction Graph</h3><div class="graph">
+<div class="edge e1"></div><div class="edge e2"></div><div class="edge e3"></div><div class="edge e4"></div>
+<div class="node a">W-01</div><div class="node b">DEX</div><div class="node c">W-03</div><div class="node d">EXCHANGE</div><div class="node main">TARGET</div>
+</div><div class="alert"><b>Pattern detected:</b> rapid multi-hop transfers followed by fund splitting and consolidation. This is a simulated demonstration signal, not a real-world attribution.</div></div>
+<div class="card"><h3>AI Risk Assessment</h3><div class="score"><div class="ring"><span id="score">82</span></div><div class="risktext"><b id="risk">HIGH RISK</b><p class="muted">Explainable score based on transaction-pattern signals.</p></div></div><div style="margin-top:20px"><span class="muted">Rapid transfers</span><div class="bar"><i style="width:92%"></i></div><span class="muted">Wallet clustering</span><div class="bar"><i style="width:76%"></i></div><span class="muted">Split / consolidation</span><div class="bar"><i style="width:84%"></i></div></div></div>
+</div>
+<div class="grid">
+<div class="card"><h3>Transaction Trail</h3><table class="table"><thead><tr><th>Hop</th><th>Destination</th><th>Amount</th><th>Signal</th></tr></thead><tbody id="trail">
+<tr><td>01</td><td>W-01A2…91F</td><td>2.84 ETH</td><td><span class="tag">Rapid</span></td></tr>
+<tr><td>02</td><td>W-03C8…22A</td><td>1.41 ETH</td><td><span class="tag">Split</span></td></tr>
+<tr><td>03</td><td>DEX-8F1…4BC</td><td>1.39 ETH</td><td><span class="tag">Swap</span></td></tr>
+<tr><td>04</td><td>EXC-19D…7AA</td><td>1.37 ETH</td><td><span class="tag">Exchange</span></td></tr>
+</tbody></table></div>
+<div class="card"><h3>Potential Destination</h3><div style="font-size:24px;font-weight:900;margin:18px 0">EXC-19D…7AA</div><div class="muted">Entity intelligence match</div><div style="margin-top:18px"><span class="tag ok">Potential exchange</span></div><div class="alert" style="border-left-color:var(--cyan)">Evidence package: transaction path, timestamps, amounts and pattern signals are assembled for authorized investigators.</div></div>
+</div>
+</section>
+<div class="footer">CryptoTrace AI • SIH 2026 Prototype • For authorized investigation and demonstration only • Demo data is simulated</div>
+</main>
+<script>
+function setWallet(v){document.getElementById('wallet').value=v;trace()}
+function trace(){
+ const b=document.querySelector('button'); b.textContent='ANALYZING…';document.body.classList.add('loading');
+ setTimeout(()=>{b.textContent='TRACE COMPLETE ✓';document.body.classList.remove('loading');setTimeout(()=>b.textContent='TRACE WALLET →',1200)},900)
+}
+</script>
+</body>
+</html>
